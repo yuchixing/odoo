@@ -1129,6 +1129,9 @@
 <t t-name="FieldDate">
     <span class="oe_form_field oe_datepicker_root oe_form_field_date" t-att-style="widget.node.attrs.style"/>
 </t>
+<t t-name="FieldTime">
+    <span class="oe_form_field oe_datepicker_root oe_form_field_time" t-att-style="widget.node.attrs.style"/>
+</t>
 <t t-name="FieldDatetime">
     <span class="oe_form_field oe_datepicker_root oe_form_field_datetime" t-att-style="widget.node.attrs.style"/>
 </t>

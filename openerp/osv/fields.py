@@ -173,12 +173,12 @@ class _column(object):
         """Converts a field value to a suitable string representation for a record,
            e.g. when this field is used as ``rec_name``.
 
-           :param obj: the ``BaseModel`` instance this column belongs to 
+           :param obj: the ``BaseModel`` instance this column belongs to
            :param value: a proper value as returned by :py:meth:`~openerp.orm.osv.BaseModel.read`
                          for this column
         """
         # delegated to class method, so a column type A can delegate
-        # to a column type B. 
+        # to a column type B.
         return self._as_display_name(self, cr, uid, obj, value, context=None)
 
     @classmethod
@@ -328,9 +328,22 @@ class float(_column):
             self.digits = self.digits_compute(cr)
         if self.digits:
             precision, scale = self.digits
-            self._symbol_set = ('%s', lambda x: float_repr(float_round(__builtin__.float(x or 0.0),
-                                                                       precision_digits=scale),
-                                                           precision_digits=scale))
+            self._symbol_set = ('%s', lambda x: float_repr(float_round(__builtin__.float(x or 0.0),precision_digits=scale),precision_digits=scale))
+
+class time(_column):
+    _type='time'
+
+    @staticmethod
+    def now(*args):
+        """ Returns the current datetime in a format fit for being a
+        default value to a ``datetime`` field.
+
+        This method should be provided as is to the _defaults dict, it
+        should not be called.
+        """
+        return DT.datetime.now().strftime(
+            tools.DEFAULT_SERVER_DATETIME_FORMAT)
+
 
 class date(_column):
     _type = 'date'
@@ -377,12 +390,12 @@ class date(_column):
            :param dict context: the 'tz' key in the context should give the
                                 name of the User/Client timezone (otherwise
                                 UTC is used)
-           :rtype: str 
+           :rtype: str
         """
         today = timestamp or DT.datetime.now()
         context_today = None
         if context and context.get('tz'):
-            tz_name = context['tz']  
+            tz_name = context['tz']
         else:
             user = model.pool['res.users'].browse(cr, SUPERUSER_ID, uid)
             tz_name = user.tz
@@ -470,7 +483,7 @@ class datetime(_column):
         """
         assert isinstance(timestamp, DT.datetime), 'Datetime instance expected'
         if context and context.get('tz'):
-            tz_name = context['tz']  
+            tz_name = context['tz']
         else:
             registry = openerp.modules.registry.RegistryManager.get(cr.dbname)
             user = registry['res.users'].browse(cr, SUPERUSER_ID, uid)
@@ -641,7 +654,7 @@ class many2one(_column):
 
     @classmethod
     def _as_display_name(cls, field, cr, uid, obj, value, context=None):
-        return value[1] if isinstance(value, tuple) else tools.ustr(value) 
+        return value[1] if isinstance(value, tuple) else tools.ustr(value)
 
 
 class one2many(_column):
@@ -752,7 +765,7 @@ class one2many(_column):
 
     @classmethod
     def _as_display_name(cls, field, cr, uid, obj, value, context=None):
-        raise NotImplementedError('One2Many columns should not be used as record name (_rec_name)') 
+        raise NotImplementedError('One2Many columns should not be used as record name (_rec_name)')
 
 #
 # Values: (0, 0,  { fields })    create
@@ -950,7 +963,7 @@ class many2many(_column):
 
     @classmethod
     def _as_display_name(cls, field, cr, uid, obj, value, context=None):
-        raise NotImplementedError('Many2Many columns should not be used as record name (_rec_name)') 
+        raise NotImplementedError('Many2Many columns should not be used as record name (_rec_name)')
 
 
 def get_nice_size(value):
@@ -1405,9 +1418,9 @@ class related(function):
             pass
 
 
-class sparse(function):   
+class sparse(function):
 
-    def convert_value(self, obj, cr, uid, record, value, read_value, context=None):        
+    def convert_value(self, obj, cr, uid, record, value, read_value, context=None):
         """
             + For a many2many field, a list of tuples is expected.
               Here is the list of tuple that are accepted, with the corresponding semantics ::
@@ -1465,7 +1478,7 @@ class sparse(function):
             if value is None:
                 # simply delete the key to unset it.
                 serialized.pop(field_name, None)
-            else: 
+            else:
                 serialized[field_name] = self.convert_value(obj, cr, uid, record, value, serialized.get(field_name), context=context)
             obj.write(cr, uid, ids, {self.serialization_field: serialized}, context=context)
         return True
@@ -1497,7 +1510,7 @@ class sparse(function):
     def __init__(self, serialization_field, **kwargs):
         self.serialization_field = serialization_field
         super(sparse, self).__init__(self._fnct_read, fnct_inv=self._fnct_write, multi='__sparse_multi', **kwargs)
-     
+
 
 
 # ---------------------------------------------------------
@@ -1525,16 +1538,16 @@ class dummy(function):
 
 class serialized(_column):
     """ A field able to store an arbitrary python data structure.
-    
+
         Note: only plain components allowed.
     """
-    
+
     def _symbol_set_struct(val):
         return simplejson.dumps(val)
 
     def _symbol_get_struct(self, val):
         return simplejson.loads(val or '{}')
-    
+
     _prefetch = False
     _type = 'serialized'
 

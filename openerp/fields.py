@@ -1066,6 +1066,20 @@ class Html(_String):
             return html_sanitize(value)
         return value
 
+class Time(Field):
+    type='time'
+
+    @staticmethod
+    def from_string(value):
+        """ Convert an ORM `value` into a :class:`date` value. """
+        value = value[:TIME_FORMAT]
+        return datetime.strptime(value, TIME_FORMAT).time()
+
+    def convert_to_export(self, value, env):
+        if value and env.context.get('export_raw_data'):
+            return self.from_string(value)
+        return bool(value) and ustr(value)
+
 
 class Date(Field):
     type = 'date'
