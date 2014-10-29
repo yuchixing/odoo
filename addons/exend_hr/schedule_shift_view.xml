@@ -1,20 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
 	<data>
-		<menuitem  id="menu_schedule_shift_root"  parent="hr.menu_hr_root" name="schedule" sequence="20"/>
-		<menuitem id="menu_schedule_shift" parent="menu_schedule_shift_root" name="shift" action="schedule_shift_action" sequence="40"/>
-		
+
+        <record model="ir.ui.view" id="edit_schedule_child_new">
+            <field name="name">Schedule child</field>
+            <field name="model">schedule.shift.child</field>
+            <field name="arch" type="xml">
+                <form string="schedule child">
+                    <header>
+                        <p>2232</p>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="st"/>
+                            <field name="et"/>
+                            <field name="record"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
 		<record model="ir.ui.view" id="view_schedule_shift">
 			<field name="name">schedule.shift.tree</field>
 			<field name="model">schedule.shift</field>
 			<field name="arch" type="xml">
 				<tree>
 					<field name="name"/>
-					<field name="child_shift"/>
+					<field name="st_shift"/>
 				</tree>
 			</field>
 		</record>
-		
+
 
 
         <record model="ir.ui.view" id="edit_schedule_new">
@@ -29,10 +47,10 @@
                     <group>
                         <group>
                             <field name="name"/>
-							<field name="child_shift"/>
+							<field name="st_shift"/>
                         </group>
 
-                    </group>                
+                    </group>
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers"/>
@@ -41,7 +59,7 @@
                 </form>
             </field>
         </record>
-        
+
 		<record model="ir.actions.act_window" id="schedule_shift_action">
             <field name="name">shift</field>
             <field name="res_model">schedule.shift</field>
@@ -58,17 +76,19 @@
               </p>
             </field>
         </record>
-        
+
 		<record model="ir.actions.act_window.view" id="schedule_shift_action_tree">
             <field name="sequence" eval="2"/>
             <field name="view_mode">tree</field>
             <field name="view_id" ref="view_schedule_shift"/>
             <field name="act_window_id" ref="schedule_shift_action"/>
         </record>
-        
 
-		
-		
+        <menuitem  id="menu_schedule_shift_root"  parent="hr.menu_hr_root" name="schedule" sequence="20"/>
+        <menuitem id="menu_schedule_shift" parent="menu_schedule_shift_root" name="shift" action="schedule_shift_action" sequence="40"/>
+
+
+
 	</data>
-	
+
 </openerp>

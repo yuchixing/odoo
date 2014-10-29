@@ -34,6 +34,7 @@ from types import NoneType
 
 from openerp.tools import float_round, ustr, html_sanitize
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT as DATE_FORMAT
+from openerp.tools import DEFAULT_SERVER_TIME_FORMAT as TIME_FORMAT
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT as DATETIME_FORMAT
 
 DATE_LENGTH = len(date.today().strftime(DATE_FORMAT))
