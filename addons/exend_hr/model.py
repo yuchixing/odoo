@@ -5,11 +5,11 @@ from openerp import api
 
 class hr_employee(osv.osv):
     _inherit='hr.employee'
-    
+
     _columns={
               'employee_no':fields.char(u"员工号"),
               }
-    
+
 class ScheduleShiftChild(osv.osv):
     _name="schedule.shift.child"
     _description=u'班段'
@@ -36,10 +36,13 @@ class ScheduleConfig(osv.osv):
               'name':fields.char(u"规则名称"),
               'week':fields.selection(_get_week,u"周日"),
     }
-    
+
     _default={
               'week':'two'
               }
+
+
+
 class ScheduleShift(osv.osv):
     _name="schedule.shift"
 
@@ -54,7 +57,7 @@ class ScheduleShift(osv.osv):
 
     _columns={
         'name':fields.char(u"班次名称"),
-        'shift_type':fields.selection(_get_shift_type,u"班次类型"),
+        'shift_type':fields.selection(_get_shift_type,u"班次类型",default="fixed"),
         'st_shift':fields.many2one("schedule.shift.child",u"上午班段"),
         'et_shift':fields.many2one("schedule.shift.child",u"下午班段"),
         'mt_shift':fields.many2one("schedule.shift.child",u"吃饭班段"),
@@ -64,7 +67,7 @@ class ScheduleShift(osv.osv):
 class ScheduleArrange(osv.osv):
     _name="schedule.arrange"
     _inherit=['mail.thread']
-    
+
     #按人员是硬绑定，其它是软绑定
     @api.v8
     def _get_user_add_type(self):
@@ -73,7 +76,7 @@ class ScheduleArrange(osv.osv):
                 ('user',u"按人员"),
                 ('category',u"按标签"),
                 )
-        
+
     def onchange_type(self, cr, uid, ids, user_add_type, context=None):
         print "user_add_type=",user_add_type
         res={}
@@ -87,29 +90,59 @@ class ScheduleArrange(osv.osv):
         res['value']=values
         print "res=",res
         return res
-        
+
     _columns={
               'name':fields.char(u"排班名称"),
               'st':fields.date(u"开始日期"),
               'et':fields.date(u"结束日期"),
-              'user_add_type':fields.selection(_get_user_add_type,u"添加人员方式"),
-              'user_id':fields.one2many("hr.employee","user_id",u"考勤人员"),
+              'user_add_type':fields.selection(_get_user_add_type,u"添加人员方式",default="user"),
+              'user_id':fields.many2many("hr.employee","schedule_arrange_employee_ref","arrange_id","user_id",u"考勤人员"),
               'shift_id':fields.many2one("schedule.shift",u"班次"),
               'department_id':fields.many2one("hr.department","department_id",u"部门"),
               'category_id': fields.many2one('hr.employee.category',"category_id", u"员工标签"),
               "schedule_config":fields.many2one("schedule.config",u"考勤规则"),
-              
+
               }
+    default={
+
+    }
+
+class hr_employee(osv.osv):
+  _inherit="hr.employee"
+
+  _columns={
+    'employee_no':fields.char(u"员工号",max_length=10),
+
+  }
+
+class ScheduleDevice(osv.osv):
+    _name="schedule.device"
+    _inherit=['mail.thread']
+
+    _columns={
+        'name':fields.char(u"设备名称"),
+        'device_no':fields.char(u"设备序列号"),
+        'is_active':fields.boolean(u"在线"),
+    }
 
 
 class ScheduleCatalog(osv.osv):
     _name="schedule.catalog"
     _inherit=['mail.thread']
+
+    @api.v8
+    def _get_record_action(self):
+      return (
+          ('1',u'签入'),
+          ('2',u'签出'),
+          ('3',u'出假')
+        )
     _columns={
               'device_no':fields.char(u"设备序列号"),
               'record_time':fields.datetime(u'打卡时间'),
               'record_employee':fields.char(u"员工号"),
-              'record_cardno':fields.char(u"卡号")
+              'record_cardno':fields.char(u"卡号"),
+              'record_action':fields.selection(_get_record_action,u"操作"),
         }
 
 

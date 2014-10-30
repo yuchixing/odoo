@@ -18,9 +18,9 @@
 				</form>
 			</field>
 		</record>
-		
-		
-		
+
+
+
 		<record model="ir.ui.view" id="view_schedule_arrange">
 			<field name="name">Schedule arrange</field>
 			<field name="model">schedule.arrange</field>
@@ -35,7 +35,7 @@
 				</tree>
 			</field>
 		</record>
-		
+
 		<record model="ir.ui.view" id="edit_schedule_arrange_new">
             <field name="name">Schedule arrange</field>
             <field name="model">schedule.arrange</field>
@@ -60,7 +60,7 @@
                 </form>
             </field>
         </record>
-		
+
 		<record model="ir.actions.act_window" id="schedule_arrange_action">
             <field name="name">shift arrange</field>
             <field name="res_model">schedule.arrange</field>
@@ -77,7 +77,7 @@
               </p>
             </field>
         </record>
-        
+
 		<record model="ir.ui.view" id="view_schedule_shift_child">
 			<field name="name">Schedule child tree</field>
 			<field name="model">schedule.shift.child</field>
@@ -89,7 +89,7 @@
 				</tree>
 			</field>
 		</record>
-		
+
         <record model="ir.ui.view" id="edit_schedule_child_new">
             <field name="name">Schedule child</field>
             <field name="model">schedule.shift.child</field>
@@ -109,7 +109,7 @@
                 </form>
             </field>
         </record>
-        
+
         <record model="ir.actions.act_window" id="schedule_shift_child_action">
             <field name="name">shift child</field>
             <field name="res_model">schedule.shift.child</field>
@@ -120,7 +120,7 @@
             <field name="search_view_id" ref="view_hr_holidays_filter"/-->
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
-                Click to create a new 
+                Click to create a new
               </p><p>
                 1111111
               </p>
@@ -187,6 +187,23 @@
               </p>
             </field>
         </record>
+        <record id="schedule_arrange_calendar" model="ir.ui.view">
+            <field name="name">schedule.arrange.calendar</field>
+            <field name="model">schedule.arrange</field>
+            <field name="arch" type="xml">
+                <calendar string="arrange" color="user_add_type" date_start="st">
+                    <field name="user_id"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="schedule_arrange_action_calendar">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">calendar</field>
+            <field name="view_id" ref="schedule_arrange_calendar"/>
+            <field name="act_window_id" ref="schedule_arrange_action"/>
+        </record>
+
 
 		<record model="ir.actions.act_window.view" id="schedule_shift_action_tree">
             <field name="sequence" eval="2"/>
@@ -201,14 +218,16 @@
 				<field name="view_id" ref="view_schedule_shift_child"/>
 				<field name="act_window_id" ref="schedule_shift_child_action"/>
 		</record>
-		
+
 		<record model="ir.actions.act_window.view" id="schedule_arrange_action_tree">
 				<field name="sequence" eval="1"/>
 				<field name="view_mode">tree</field>
 				<field name="view_id" ref="view_schedule_arrange"/>
 				<field name="act_window_id" ref="schedule_arrange_action"/>
 		</record>
-		
+
+
+
         <menuitem  id="menu_schedule_shift_root"  parent="hr.menu_hr_root" name="schedule" sequence="20"/>
         <menuitem id="menu_schedule_shift" parent="menu_schedule_shift_root" name="shift" action="schedule_shift_action" sequence="40"/>
 		<menuitem id="menu_schedule_shift_child" parent="menu_schedule_shift_root" name="sheetTime" action="schedule_shift_child_action"/>
