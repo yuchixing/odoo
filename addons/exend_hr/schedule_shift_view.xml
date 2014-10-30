@@ -1,7 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
 	<data>
-
+		<record model="ir.ui.view" id="view_schedule_config">
+			<field name="name"> schedule config</field>
+			<field name="model">schedule.config</field>
+			<field name="arch" type="xml">
+				<form>
+					 <header>
+                        <p>2232</p>
+                    </header>
+                    <sheet>
+                        <group>
+                        	<field name="name"/>
+                            <field name="week"/>
+                        </group>
+                    </sheet>
+				</form>
+			</field>
+		</record>
+		
+		
+		
+		<record model="ir.ui.view" id="view_schedule_arrange">
+			<field name="name">Schedule arrange</field>
+			<field name="model">schedule.arrange</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name" />
+					<field name="st" />
+					<field name="et" />
+					<field name="user_id" />
+					<field name="shift_id" />
+					<field name="schedule_config" />
+				</tree>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="edit_schedule_arrange_new">
+            <field name="name">Schedule arrange</field>
+            <field name="model">schedule.arrange</field>
+            <field name="arch" type="xml">
+                <form string="schedule arrange">
+                    <header>
+                        <p>2232</p>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="st" />
+							<field name="et" />
+							<field on_change="onchange_type(user_add_type)" name="user_add_type" />
+							<field name="user_id" attrs="{'required':[('user_add_type','=','employee')],'invisible':[('user_add_type','!=','user')]}"  />
+							<field attrs="{'required':[('user_add_type','=','department')],'invisible':[('user_add_type','!=','department')]}" name="department_id" />
+							<field attrs="{'required':[('user_add_type','=','category')],'invisible':[('user_add_type','!=','category')]}" name="category_id" />
+							<field name="shift_id" />
+							<field name="schedule_config" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+		
+		<record model="ir.actions.act_window" id="schedule_arrange_action">
+            <field name="name">shift arrange</field>
+            <field name="res_model">schedule.arrange</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="edit_schedule_arrange_new"/>
+            <!--field name="context">{'default_type': 'remove', 'search_default_my_leaves':1}</field>
+            <field name="domain">[('type','=','remove')]</field>
+            <field name="search_view_id" ref="view_hr_holidays_filter"/-->
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a new arrange
+              </p><p>
+                1111111
+              </p>
+            </field>
+        </record>
+        
+		<record model="ir.ui.view" id="view_schedule_shift_child">
+			<field name="name">Schedule child tree</field>
+			<field name="model">schedule.shift.child</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name" />
+					<field name="st" />
+					<field name="et" />
+				</tree>
+			</field>
+		</record>
+		
         <record model="ir.ui.view" id="edit_schedule_child_new">
             <field name="name">Schedule child</field>
             <field name="model">schedule.shift.child</field>
@@ -21,6 +109,23 @@
                 </form>
             </field>
         </record>
+        
+        <record model="ir.actions.act_window" id="schedule_shift_child_action">
+            <field name="name">shift child</field>
+            <field name="res_model">schedule.shift.child</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="edit_schedule_child_new"/>
+            <!--field name="context">{'default_type': 'remove', 'search_default_my_leaves':1}</field>
+            <field name="domain">[('type','=','remove')]</field>
+            <field name="search_view_id" ref="view_hr_holidays_filter"/-->
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a new 
+              </p><p>
+                1111111
+              </p>
+            </field>
+        </record>
 
 		<record model="ir.ui.view" id="view_schedule_shift">
 			<field name="name">schedule.shift.tree</field>
@@ -29,6 +134,9 @@
 				<tree>
 					<field name="name"/>
 					<field name="st_shift"/>
+					<field name="et_shift"/>
+					<field name="mt_shift"/>
+					<field name="shift_type"/>
 				</tree>
 			</field>
 		</record>
@@ -48,6 +156,9 @@
                         <group>
                             <field name="name"/>
 							<field name="st_shift"/>
+							<field name="et_shift"/>
+							<field name="mt_shift"/>
+							<field name="shift_type" />
                         </group>
 
                     </group>
@@ -84,10 +195,24 @@
             <field name="act_window_id" ref="schedule_shift_action"/>
         </record>
 
+		<record model="ir.actions.act_window.view" id="schedule_shift_child_action_tree">
+				<field name="sequence" eval="1"/>
+				<field name="view_mode">tree</field>
+				<field name="view_id" ref="view_schedule_shift_child"/>
+				<field name="act_window_id" ref="schedule_shift_child_action"/>
+		</record>
+		
+		<record model="ir.actions.act_window.view" id="schedule_arrange_action_tree">
+				<field name="sequence" eval="1"/>
+				<field name="view_mode">tree</field>
+				<field name="view_id" ref="view_schedule_arrange"/>
+				<field name="act_window_id" ref="schedule_arrange_action"/>
+		</record>
+		
         <menuitem  id="menu_schedule_shift_root"  parent="hr.menu_hr_root" name="schedule" sequence="20"/>
         <menuitem id="menu_schedule_shift" parent="menu_schedule_shift_root" name="shift" action="schedule_shift_action" sequence="40"/>
-
-
+		<menuitem id="menu_schedule_shift_child" parent="menu_schedule_shift_root" name="sheetTime" action="schedule_shift_child_action"/>
+		<menuitem id="menu_schedule_arrange" parent="menu_schedule_shift_root" name="arrange" action="schedule_arrange_action" />
 
 	</data>
 
