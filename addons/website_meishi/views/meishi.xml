@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<template id='website_meishi.menu'>
+			<ul class="breadcrumb">
+				<li class="active">
+					<a href="#">每日一菜</a> <span class="divider">/</span>
+				</li>
+				<li>
+					<a href="#">商店</a> <span class="divider">/</span>
+				</li>
+			</ul>
+		</template>
+		<template id='website_meishi.guanggao'>
+			<div class="row clearfix">
+				<div class="col-md-12 column">
+				</div>
+			</div>
+		</template>
+
+		<template id='website_meishi.context'>
+			<div class="col-md-8 column">
+				<div class="jumbotron well">
+						<h3 class="text-center">
+							<span t-field='o.title'/>
+						</h3>
+						<t t-if='o.image'>
+							<img alt="140x140" t-att-src="o.image_medium" />
+						</t>
+						<img class='img-responsive img-rounded' alt="140x140" src="http://lorempixel.com/760/760/" />
+
+					<p t-field='o.text'></p>
+					</div>
+				</div>
+		</template>
+
+		<template id='website_meishi.edanshop'>
+			<div class="col-md-4 column">
+				<div class="col-md-12 column">
+					<img class='img-responsive img-rounded' alt="140x140" src="http://lorempixel.com/340/340/" />
+				</div>
+				<div class="col-md-12 column">
+					<span class="label label-default">自家鹅场</span>
+					<ul class="nav nav-pills">
+						<li class="active">
+							 <a href="#"> <span class="badge pull-right">42</span>淘宝</a>
+						</li>
+						<li>
+							 <a href="#"> <span class="badge pull-right">16</span>商店</a>
+						</li>
+					</ul>
+				</div>
+
+			</div>
+
+		</template>
+		<template id="website_meishi.index">
+			&lt;!DOCTYPE html&gt;
+		<html>
+        <head>
+			<link rel='stylesheet' href='/web/static/lib/bootstrap/css/bootstrap.css' t-ignore="true"/>
+
+			<script type="text/javascript" src="/web/static/lib/bootstrap/js/bootstrap.js"></script>
+			<script type="text/javascript" src="/web/static/lib/jquery/jquery.js"></script>
+		</head>
+		<body>
+			<t t-set="o" t-value="meishi"/>
+			<div class="container-fluid">
+				<div class="row clearfix">
+					<div class="col-md-12 column">
+								<t t-call='website_meishi.guanggao'/>
+								<t t-call='website_meishi.menu'/>
+					<div class="row clearfix">
+						<t t-call='website_meishi.context'/>
+						<t t-call='website_meishi.edanshop'/>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		</body>
+		</html>
+		</template>
+	</data>
+</openerp>
