@@ -28,6 +28,35 @@ class Meishi(osv.Model):
     def _has_image(self, name, args):
         return dict((p.id, bool(p.image)) for p in self)
 
+    @api.multi
+    def get_meishi_context(self):
+        import requests
+        from bs4 import BeautifulSoup
+        url="http://home.meishichina.com/search.php?q=鹅蛋&type=all&cs=utf8&befrom=index"
+
+        text=requests.get(url).text
+        b=BeautifulSoup(text)
+        c=b.find_all('div',class_='detail')
+
+        for d in c:
+            title=d.a.text
+            href=d.a['href']
+            text2=requests.get(href)
+            bb=BeautifulSoup(text2)
+            cc=bb.find('a',class_='J_photo')
+            m_image=cc.img['src']
+            m_text=d.find('div',id='block_txt1').text
+            m_context_div=d.find_all('div',class_='recipeCategory_sub_R')
+            i=1
+            str=''
+            for t in m_context:
+                str+="%s,%s;"%(i,t.text)
+                i+=1
+            m_context=str
+
+
+
+
     _columns={
         'title':fields.char(u'菜名'),
         'text':fields.text(u'简介'),
@@ -42,6 +71,7 @@ class Meishi(osv.Model):
             help="Medium-sized image of this contact. It is automatically "\
                  "resized as a 128x128px image, with aspect ratio preserved. "\
                  "Use this field in form views or some kanban views."),
+        'context':fields.char(u'源材料'),
         #'is_push':fields.boolean('已查看')
 }
 
