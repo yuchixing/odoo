@@ -59,9 +59,68 @@
         </record>
 
 
+
+		<!-- param 下面-->
+
+        <record model="ir.ui.view" id="from_myechan_view">
+            <field name="name">myechan</field>
+            <field name="model">website.myechan</field>
+            <field name="arch" type="xml">
+                <form string="myechan">
+                <header>
+                        <p>121212</p>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="image"/>
+                            <field name="taobao"/>
+                            <field name='taobao_url'/>
+                            <field name="erp"/>
+                            <field name="erpshop_url"/>
+                        </group>
+
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="menu_menu_myechan_action">
+            <field name="name">myechan</field>
+            <field name="res_model">website.myechan</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="from_myechan_view"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a new
+              </p><p>
+                1111111
+              </p>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="tree_myechan_view">
+            <field name="name">myechan</field>
+            <field name="model">website.myechan</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="taobao"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window.view" id="menu_menu_myechan_action_tree">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="tree_myechan_view"/>
+            <field name="act_window_id" ref="menu_menu_myechan_action"/>
+        </record>
+
         <menuitem id="menu_meishi"  name="美食" parent="hr.menu_hr_root" sequence="20"/>
 
         <menuitem id="menu_menu_meishi" parent="menu_meishi" name="美食" action="menu_menu_meishi_action" sequence="40"/>
-
+		<menuitem id="menu_menu_myechan" parent="menu_meishi" name="param" action="menu_menu_myechan_action" sequence="40"/>
     </data>
 </openerp>

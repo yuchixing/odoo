@@ -25,31 +25,41 @@
 							<span t-field='o.title'/>
 						</h3>
 						<t t-if='o.image'>
-							<img alt="140x140" t-att-src="o.image_medium" />
+						<img class='img-responsive img-rounded' alt="140x140" t-att-src="'/website/image/website.meishi/%s/image' %(o.id)" />
 						</t>
 						<img class='img-responsive img-rounded' alt="140x140" src="http://lorempixel.com/760/760/" />
 
 					<p t-field='o.text'></p>
+					
 					</div>
 				</div>
 		</template>
 
 		<template id='website_meishi.edanshop'>
-			<div class="col-md-4 column">
+			<div class="col-md-4 column" >
 				<div class="col-md-12 column">
 					<img class='img-responsive img-rounded' alt="140x140" src="http://lorempixel.com/340/340/" />
 				</div>
-				<div class="col-md-12 column">
-					<span class="label label-default">自家鹅场</span>
-					<ul class="nav nav-pills">
+
+				<div class='col-md-12 column'>
+					<span class="label label-default" style='display: inline-block'>自家鹅场</span>
+					<p></p>
+					
+					<ul class="nav nav-pills ">
 						<li class="active">
-							 <a href="#"> <span class="badge pull-right">42</span>淘宝</a>
+							 <a t-att-href="m.taobao_url"> <span class="badge pull-right" t-field='m.taobao'></span>淘宝</a>
 						</li>
 						<li>
-							 <a href="#"> <span class="badge pull-right">16</span>商店</a>
+							 <a t-att-href="m.erpshop_url"> <span class="badge pull-right" t-field='m.erp'></span>商店</a>
 						</li>
 					</ul>
 				</div>
+				
+				<div class='col-md-12 column'>
+					
+					
+				</div>
+				
 
 			</div>
 
@@ -59,12 +69,14 @@
 		<html>
         <head>
 			<link rel='stylesheet' href='/web/static/lib/bootstrap/css/bootstrap.css' t-ignore="true"/>
-
+			<link rel='stylesheet' href='/website_meishi/src/css/common.css' t-ignore="true"/>
 			<script type="text/javascript" src="/web/static/lib/bootstrap/js/bootstrap.js"></script>
 			<script type="text/javascript" src="/web/static/lib/jquery/jquery.js"></script>
 		</head>
 		<body>
 			<t t-set="o" t-value="meishi"/>
+			<t t-set='m' t-value='myechan'/>
+			
 			<div class="container-fluid">
 				<div class="row clearfix">
 					<div class="col-md-12 column">

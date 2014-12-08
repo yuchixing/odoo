@@ -10,6 +10,8 @@ class Myechan(osv.Model):
         'image':fields.binary("图片"),
         'taobao':fields.integer('淘宝成交量'),
         'erp':fields.integer('erp成交量'),
+        'taobao_url':fields.char('淘宝url'),
+        'erpshop_url':fields.char('erpurl'),
     }
 class Meishi(osv.Model):
     _name='website.meishi'
@@ -40,6 +42,7 @@ class Meishi(osv.Model):
             help="Medium-sized image of this contact. It is automatically "\
                  "resized as a 128x128px image, with aspect ratio preserved. "\
                  "Use this field in form views or some kanban views."),
+        #'is_push':fields.boolean('已查看')
 }
 
 
