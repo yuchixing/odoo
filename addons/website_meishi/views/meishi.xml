@@ -21,24 +21,34 @@
 		<template id='website_meishi.context'>
 			<div class="col-md-8 column">
 				<div class="jumbotron well">
-						<h3 class="text-center">
-							<span t-field='o.title'/>
-						</h3>
-						<t t-if='o.image'>
-						<img class='img-responsive img-rounded' alt="140x140" t-att-src="'/website/image/website.meishi/%s/image' %(o.id)" />
-						</t>
-						<img class='img-responsive img-rounded' alt="140x140" src="http://lorempixel.com/760/760/" />
-
-					<p t-field='o.text'></p>
-					
-					</div>
+						
+				    <div class="ih-item square special effect6 bottom_to_top"><a href="#">
+				        <div class="img"><t t-if='o.image'>
+					<img t-att-src="'/website/image/website.meishi/%s/image' %(o.id)" />
+				</t>
 				</div>
+				        <div class="info">
+				          <h3><span t-field='o.title'/></h3>
+				          <h3><p t-field='o.text'></p></h3>
+				        </div></a></div>
+						
+
+					
+				</div>
+			</div>
 		</template>
 
 		<template id='website_meishi.edanshop'>
 			<div class="col-md-4 column" >
 				<div class="col-md-12 column">
-					<img class='img-responsive img-rounded' alt="140x140" src="http://lorempixel.com/340/340/" />
+					<!--img class='img-responsive img-rounded' alt="140x140" src="http://lorempixel.com/340/340/" /-->
+					    <div class="ih-item square colored effect15 bottom_to_top"><a href="#">
+					        <div class="img"><img src="http://lorempixel.com/340/340/" /></div>
+					        <div class="info">
+					          <h3>Heading here</h3>
+					          <p>Description goes here</p>
+					        </div></a>
+					    </div>
 				</div>
 
 				<div class='col-md-12 column'>
@@ -56,7 +66,37 @@
 				</div>
 				
 				<div class='col-md-12 column'>
-					
+					<div class='col-md-2'></div>
+					<div class='col-md-8'>
+					<div class="row">
+						  <div class="col-md-6">
+						 
+						    <!-- colored -->
+						    <div class="ih-item circle colored effect15 left_to_right"><a href="#">
+						        <div class="img"><img src="http://lorempixel.com/340/340/"  /></div>
+						        <div class="info">
+						          <h3>Heading here</h3>
+						          <p>Description goes here</p>
+						        </div></a></div>
+						    <!-- end colored -->
+						 
+						  </div>
+					</div>
+					<div class="row">
+						  <div class="col-md-6">
+						 
+						    <!-- colored -->
+						    <div class="ih-item circle effect13 from_left_and_right"><a href="#">
+						        <div class="img"><img src="http://lorempixel.com/340/340/"  /></div>
+						        <div class="info">
+						          <h3>Heading here</h3>
+						          <p>Description goes here</p>
+						        </div></a></div>
+						    <!-- end colored -->
+						 
+						  </div>
+					</div>
+				</div>
 					
 				</div>
 				
@@ -64,14 +104,16 @@
 			</div>
 
 		</template>
+
 		<template id="website_meishi.index">
 			&lt;!DOCTYPE html&gt;
 		<html>
-        <head>
+        		<head>
+
 			<link rel='stylesheet' href='/web/static/lib/bootstrap/css/bootstrap.css' t-ignore="true"/>
-			<link rel='stylesheet' href='/website_meishi/src/css/common.css' t-ignore="true"/>
-			<script type="text/javascript" src="/web/static/lib/bootstrap/js/bootstrap.js"></script>
+			<link href="/website_meishi/static/src/lib/ihover.css" rel="stylesheet"/>
 			<script type="text/javascript" src="/web/static/lib/jquery/jquery.js"></script>
+			<script type="text/javascript" src="/web/static/lib/bootstrap/js/bootstrap.js"></script>
 		</head>
 		<body>
 			<t t-set="o" t-value="meishi"/>
@@ -79,16 +121,16 @@
 			
 			<div class="container-fluid">
 				<div class="row clearfix">
-					<div class="col-md-12 column">
+					<div class="col-md-12 column bg-danger" >
 								<t t-call='website_meishi.guanggao'/>
 								<t t-call='website_meishi.menu'/>
-					<div class="row clearfix">
-						<t t-call='website_meishi.context'/>
-						<t t-call='website_meishi.edanshop'/>
+						<div class="row clearfix">
+							<t t-call='website_meishi.context'/>
+							<t t-call='website_meishi.edanshop'/>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 
 		</body>
 		</html>
