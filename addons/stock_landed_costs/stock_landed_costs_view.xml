@@ -251,7 +251,11 @@
            <field name="act_window_id" ref="stock_landed_cost_type_action"/>
         </record>
 
+<<<<<<< HEAD
     <menuitem action="stock_landed_cost_type_action" name="Landed Cost Type" parent="stock.menu_stock_configuration" id="menu_stock_landed_cost_type" sequence="1"/>
+=======
+	<menuitem action="stock_landed_cost_type_action" name="Landed Cost Type" parent="stock.menu_warehouse_config" id="menu_stock_landed_cost_type" sequence="5"/>
+>>>>>>> 19c7bfb635e93b913255300f46e3c92f4277b656
 
     </data>
 </openerp>
